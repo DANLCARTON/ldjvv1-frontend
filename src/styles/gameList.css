@@ -1,0 +1,46 @@
+/**** GAMELIST ****/
+
+#gamelist {
+    padding: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+#gamelist .game img {
+    max-height: 250px;
+}   
+
+#gamelist .game {
+    width: 166.66px;
+    overflow-x: hidden;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    /* flex-direction: column; */
+    /* height: 300px; */
+    min-height: 250px;
+    position: relative
+    /* padding: 5px */
+}
+
+#gamelist .game .platform-name {
+    position: absolute;
+    font-size: 1rem;
+    padding: 2px;
+    top: 5px;
+    left: 5px;
+    border-radius: 5px;
+}
+
+#gamelist .game .game-name {
+    position: absolute;
+    font-size: 1rem;
+    padding: 2px;
+    bottom: 5px;
+    left: 5px;
+    border-radius: 5px;
+    max-width: 151.66px;
+}

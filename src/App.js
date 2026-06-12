@@ -1,23 +1,57 @@
 import logo from './logo.svg';
 import './App.css';
+import { getAllGames, getPlatform, getPlatforms } from './firebase/firebase';
+import { AddGame } from './components/addGame.js';
+
+import "./firebase.js"
+import { AddPlatform } from './components/addPlatform.js';
+import { GameList } from './components/gameList.js';
+import { useState } from 'react';
+
+import "./styles/modal.css"
+
+const gamelist = await getAllGames() ?? []
+const platformslist = await getPlatforms() ?? []
+
+console.log(gamelist);
 
 function App() {
+
+  const nextIndex = gamelist.length+1 
+
+  const [addGameModal, setAddGameModal] = useState(false)
+  const [addPlatformModal, setAddPlatformModal] = useState(false)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <div className='buttons'>
+        <button 
+          class='add'
+          onClick={() => setAddGameModal(true)}
+        >+ Ajouter un nouveau jeu</button>
+        <button 
+          class='add'
+          onClick={() => setAddPlatformModal(true)}
+        >+ Ajouter une nouvelle plateforme</button>
+      </div>
+
+
+      <GameList gamelist={gamelist} platformslist={platformslist}/>
+
+      {addGameModal && <div className='modal add-game' onClick={() => {setAddGameModal(false)}}>
+        <div onClick={(e) => {e.stopPropagation()}}>
+          <AddGame nextIndex={nextIndex} />
+        </div>
+      </div>}
+
+      {addPlatformModal && <div className='modal add-game' onClick={() => setAddPlatformModal(false)}>
+        <div onClick={(e) => {e.stopPropagation()}}>
+          <AddPlatform />
+        </div>
+      </div>}
+
+      {}
     </div>
   );
 }
