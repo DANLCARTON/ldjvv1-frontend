@@ -48,7 +48,7 @@ export function AddGame (props) {
             </div>
             
             <input type="submit" value="Ajouter" />
-            {message != "" && <pre>{message}</pre>}
+            {message !== "" && <pre>{message}</pre>}
         </form>
     </div>
 }

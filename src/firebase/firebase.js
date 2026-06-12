@@ -51,6 +51,8 @@ export const addPlatform = async (params) => {
             +"&name="+encodeURIComponent(params.name)
             +"&color="+encodeURIComponent(params.color)
         )
+        const set = response.json()
+        return set;
     } catch (error) {
         return "Echec lors de l'ajout ->" + error
     }
@@ -85,6 +87,8 @@ export const addStatuses = async (params) => {
             +"&name="+params.name
             +"&color="+params.color
         )
+        const set = response.json()
+        return set;
     } catch (error) {
         return "Echec lors de l'ajout ->" + error
     }

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { addGame, addPlatform } from "../firebase/firebase"
+import { addPlatform } from "../firebase/firebase"
 
 import "../styles/addGame.css"
 
@@ -39,7 +39,7 @@ export function AddPlatform () {
                 <input type='color' name="color" required></input>
             </div>
             <input type="submit" value="Ajouter" />
-            {message != "" && <pre>{message}</pre>}
+            {message !== "" && <pre>{message}</pre>}
         </form>
     </div>
 }

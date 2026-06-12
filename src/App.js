@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import { getAllGames, getPlatform, getPlatforms } from './firebase/firebase';
+import { getAllGames, getPlatforms } from './firebase/firebase';
 import { AddGame } from './components/addGame.js';
 
 import "./firebase.js"

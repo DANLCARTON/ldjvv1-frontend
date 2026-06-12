@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../styles/gameList.css"
 
 export function GameList (props) {
