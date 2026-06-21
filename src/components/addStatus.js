@@ -1,21 +1,21 @@
 import { useState } from "react"
-import { addPlatform } from "../firebase/firebase"
+import { addPlatform, addStatus } from "../firebase/firebase"
 
 import "../styles/addGame.css"
 
-export function AddPlatform () {
+export function AddStatus () {
 
     const [message, setMessage] = useState("")
 
     const handleSubmit = async (e) => {
-        setMessage("Ajout d'une nouvelle plateforme...")
+        setMessage("Ajout d'un nouveau statut...")
         e.preventDefault()
-        await addPlatform ({
+        await addStatus ({
             index: e.target.index.value,
             name: e.target.name.value,
             color: e.target.color.value
         }).then((response) => {
-            console.log("response add platform ", response)
+            console.log("response add status", response)
             setMessage(response)
             setTimeout(() => {
                 window.location.reload()
@@ -27,11 +27,11 @@ export function AddPlatform () {
         <form onSubmit={(e) => handleSubmit(e)}>
             <div className="field">
                 <label htmlFor='index'>Index : </label>
-                <input type='text' name="index" placeholder="ns2" required></input>
+                <input type='text' name="index" placeholder="pas-joue" required></input>
             </div>
             <div className="field">
                 <label htmlFor='name'>Nom</label>
-                <input type='text' name="name" placeholder="Nintendo Switch 2" required></input>
+                <input type='text' name="name" placeholder="Pas joué" required></input>
             </div>
             <div className="field">
                 <label htmlFor='platformId'>Couleur associée</label>

@@ -22,8 +22,13 @@
     /* flex-direction: column; */
     /* height: 300px; */
     min-height: 250px;
-    position: relative
+    position: relative;
     /* padding: 5px */
+    transition: ease-in-out .1s
+}
+
+#gamelist .game:hover {
+    transform: scale(102%);
 }
 
 #gamelist .game .platform-name {

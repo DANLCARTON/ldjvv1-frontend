@@ -1,21 +1,20 @@
 import { useState } from "react"
-import { addPlatform } from "../firebase/firebase"
+import { addPlatform, addSeries, addStatus } from "../firebase/firebase"
 
 import "../styles/addGame.css"
 
-export function AddPlatform () {
+export function AddSeries () {
 
     const [message, setMessage] = useState("")
 
     const handleSubmit = async (e) => {
-        setMessage("Ajout d'une nouvelle plateforme...")
+        setMessage("Ajout d'une nouvelle série...")
         e.preventDefault()
-        await addPlatform ({
+        await addSeries ({
             index: e.target.index.value,
-            name: e.target.name.value,
-            color: e.target.color.value
+            name: e.target.name.value
         }).then((response) => {
-            console.log("response add platform ", response)
+            console.log("response add series ", response)
             setMessage(response)
             setTimeout(() => {
                 window.location.reload()
@@ -27,15 +26,11 @@ export function AddPlatform () {
         <form onSubmit={(e) => handleSubmit(e)}>
             <div className="field">
                 <label htmlFor='index'>Index : </label>
-                <input type='text' name="index" placeholder="ns2" required></input>
+                <input type='text' name="index" placeholder="smb" required></input>
             </div>
             <div className="field">
                 <label htmlFor='name'>Nom</label>
-                <input type='text' name="name" placeholder="Nintendo Switch 2" required></input>
-            </div>
-            <div className="field">
-                <label htmlFor='platformId'>Couleur associée</label>
-                <input type='color' name="color" required></input>
+                <input type='text' name="name" placeholder="Super Mario Bros." required></input>
             </div>
             <input type="submit" value="Ajouter" />
             {message !== "" && <pre>{message}</pre>}
