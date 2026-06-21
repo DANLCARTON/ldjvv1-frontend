@@ -16,6 +16,19 @@ const gamelist = await getAllGames() ?? []
 const platformslist = await getPlatforms() ?? []
 const statuseslist = await getStatuses() ?? []
 
+  const changeSort = (method) => {
+    let url = new URL(window.location.href)
+    url.searchParams.set("sort", method)
+    window.location.href = url.toString()
+  }
+
+  const getSort = () => {
+    const url = new URL(window.location.href)
+    return url.searchParams.get("sort")
+  }
+
+  const sort = getSort()
+
 function App() {
 
   const nextIndex = gamelist.length+1 
@@ -50,6 +63,15 @@ function App() {
         >+ Ajouter une nouvelle série</button>
       </div>
 
+      <div className='buttons'>
+        <button className='add' onClick={() => changeSort("alpha")}>Trier par ordre alphabétique</button>
+        <button className='add' onClick={() => changeSort("ldjvv1")}>Trier par ajout dans LDJVV1</button>
+        <button className='add' onClick={() => changeSort("platform")}>Trier par plateforme</button>
+        <button className='add' onClick={() => changeSort("status")}>Trier par statut</button>
+        <button className='add' onClick={() => changeSort("releaseDate")}>Trier par date de sortie</button>
+        <button className='add' onClick={() => changeSort("purchaseDate")}>Trier par date d'achat</button>
+        <button className='add' onClick={() => changeSort("series")}>Trier par série</button>
+      </div>
 
       <GameList 
         gamelist={gamelist} 
@@ -57,6 +79,7 @@ function App() {
         statuseslist={statuseslist}
         setIndex={setIndex} 
         setUpdateGameModal={setUpdateGameModal} 
+        sort={sort}
       />
 
       {addGameModal && <div className='modal add-game' onClick={() => {setAddGameModal(false)}}>

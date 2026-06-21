@@ -2,9 +2,52 @@ import "../styles/gameList.css"
 
 export function GameList (props) {
 
-    let {gamelist, platformslist, statuseslist, setIndex, setUpdateGameModal} = props
+    let {
+        gamelist, 
+        platformslist, 
+        statuseslist, 
+        setIndex, 
+        setUpdateGameModal, 
+        sort
+    } = props
 
-    gamelist = gamelist.sort((a, b) => a.name.localeCompare(b.name));
+    if (sort === "alpha") {
+        gamelist = gamelist.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sort === "ldjvv1") {
+        gamelist = gamelist.sort((a, b) => b.index - a.index)
+    } else if (sort === "platform") {
+        gamelist = gamelist.sort((a, b) =>  a.platformId.localeCompare(b.platformId))
+    } else if (sort === "status") {
+        gamelist = gamelist.sort((a, b) => {
+            if (a.statusId == null) return 1
+            if (b.statusId == null) return -1
+
+            return a.statusId.localeCompare(b.statusId)
+        })
+    } else if (sort === "releaseDate") {
+        gamelist = gamelist.sort((a, b) => {
+            if (a.releaseDate == null) return 1
+            if (b.releaseDate == null) return -1
+
+            return a.releaseDate.localeCompare(b.releaseDate)
+        })
+    } else if (sort === "purchaseDate") {
+        gamelist = gamelist.sort((a, b) => {
+            if (a.purchaseDate == null) return 1
+            if (b.purchaseDate == null) return -1
+
+            return a.purchaseDate.localeCompare(b.purchaseDate)
+        })
+    } else if (sort === "series") {
+        gamelist = gamelist.sort((a, b) => {
+            if (a.seriesId == null) return 1
+            if (b.seriesId == null) return -1
+
+            return a.seriesId.localeCompare(b.seriesId)
+        })
+    } else {
+        gamelist = gamelist.sort((a, b) => a.name.localeCompare(b.name));
+    }
 
     console.log("statuseslist", statuseslist)
     console.log("platformslist", platformslist)
@@ -41,12 +84,33 @@ export function GameList (props) {
             >
                 <img src={game.cover} alt={game.name} />
 
-                <p 
+                {["alpha", "ldjvv1", "platform", "series"].includes(sort) && <p 
                     class='platform-name'
                     style={{
                         backgroundColor: platformslist[game.platformId].color
                     }}
-                >{platformslist[game.platformId].name}</p>
+                >{platformslist[game.platformId].name}</p>}
+
+                {sort == "releaseDate" && <p 
+                    class='platform-name'
+                    style={{
+                        backgroundColor: platformslist[game.platformId].color
+                    }}
+                >{game.releaseDate}</p>}
+
+                {sort == "purchaseDate" && <p 
+                    class='platform-name'
+                    style={{
+                        backgroundColor: platformslist[game.platformId].color
+                    }}
+                >{game.purchaseDate}</p>}
+
+                {game.statusId && sort == "status" && <p 
+                    class='platform-name'
+                    style={{
+                        backgroundColor: statuseslist[game.statusId].color
+                    }}
+                >{statuseslist[game.statusId].name}</p>}
                 
                 <p 
                     class='game-name'
