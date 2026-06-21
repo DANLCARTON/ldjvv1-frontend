@@ -91,21 +91,21 @@ export function GameList (props) {
                     }}
                 >{platformslist[game.platformId].name}</p>}
 
-                {sort == "releaseDate" && <p 
+                {sort === "releaseDate" && <p 
                     class='platform-name'
                     style={{
                         backgroundColor: platformslist[game.platformId].color
                     }}
                 >{game.releaseDate}</p>}
 
-                {sort == "purchaseDate" && <p 
+                {sort === "purchaseDate" && <p 
                     class='platform-name'
                     style={{
                         backgroundColor: platformslist[game.platformId].color
                     }}
                 >{game.purchaseDate}</p>}
 
-                {game.statusId && sort == "status" && <p 
+                {game.statusId && sort === "status" && <p 
                     class='platform-name'
                     style={{
                         backgroundColor: statuseslist[game.statusId].color
