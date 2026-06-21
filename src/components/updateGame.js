@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { addGame, getPlatforms, getSeries, getStatuses, updateGame } from "../firebase/firebase"
+import { getPlatforms, getSeries, getStatuses, updateGame } from "../firebase/firebase"
 import "../styles/addGame.css"
 
 const platforms = Object.values(await getPlatforms() ?? [])
@@ -12,7 +12,7 @@ export function UpdateGame (props) {
 
     const [message, setMessage] = useState("")
 
-    const currentGame = gamelist.filter((game) => game.index == index)[0]
+    const currentGame = gamelist.filter((game) => game.index === index)[0]
 
     console.log("currentGame", currentGame)
 
@@ -104,7 +104,7 @@ export function UpdateGame (props) {
                 </select>
             </div>
 
-            <input type="submit" value="Ajouter" />
+            <input type="submit" value="Mettre à jour" />
             {message !== "" && <pre>{message}</pre>}
         </form>
     </div>

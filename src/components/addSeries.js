@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { addPlatform, addSeries, addStatus } from "../firebase/firebase"
+import { addSeries } from "../firebase/firebase"
 
 import "../styles/addGame.css"
 

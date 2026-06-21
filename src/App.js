@@ -1,5 +1,5 @@
 import './App.css';
-import { getAllGames, getPlatforms, getStatus, getStatuses } from './firebase/firebase';
+import { getAllGames, getPlatforms, getStatuses } from './firebase/firebase';
 import { AddGame } from './components/addGame.js';
 
 import "./firebase.js"

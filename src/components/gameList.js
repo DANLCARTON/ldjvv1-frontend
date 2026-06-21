@@ -30,7 +30,7 @@ export function GameList (props) {
                         5px 0 10px ${game.statusId && statuseslist[game.statusId].color}
                     `,
                     border: "2px solid",
-                    borderColor: platformslist[game.platformId].color,
+                    // borderColor: platformslist[game.platformId].color,
                     borderColor: game.statusId && statuseslist[game.statusId].color,
                     // boxShadow: `0 0 3px 3px ${game.statusId && statuseslist[game.statusId].color}`
                 }}
