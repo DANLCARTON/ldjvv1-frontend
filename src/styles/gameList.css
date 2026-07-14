@@ -1,12 +1,42 @@
 /**** GAMELIST ****/
 
-#gamelist {
+#gamelist .without-titles {
     padding: 25px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 15px;
+}
+
+#gamelist .with-titles {
+    padding: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-direction: column;
+}
+
+#gamelist .with-titles .group {
+    padding: 25px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-direction: column;
+}
+
+#gamelist .with-titles .group .group-games {
+    padding: 25px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+
 }
 
 #gamelist .game img {

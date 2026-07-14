@@ -6,6 +6,7 @@ export function GameList (props) {
         gamelist, 
         platformslist, 
         statuseslist, 
+        serieslist, 
         setIndex, 
         setUpdateGameModal, 
         sort
@@ -53,79 +54,254 @@ export function GameList (props) {
     console.log("platformslist", platformslist)
     console.log("dkflskdmlf", statuseslist["100"].color)
 
-    return <section id='gamelist'>
+    // --- GROUPEMENT PAR PLATEFORME ---
+    let groupedBy = null;
 
-        {gamelist.map((game, index) => (
-            <div 
-                key={index}
-                className={"game "}
-                style={{
-                    // borderImage: `linear-gradient(
-                    //     135deg, 
-                    //     ${platformslist[game.platformId].color},
-                    //     ${game.statusId && statuseslist[game.statusId].color}
-                    // )`,
-                    // borderWidth: '2px',
-                    // borderStyle: 'solid',
-                    // padding: '5px',
-                    boxShadow: `
-                        -5px 0 10px ${platformslist[game.platformId].color},
-                        5px 0 10px ${game.statusId && statuseslist[game.statusId].color}
-                    `,
-                    border: "2px solid",
-                    // borderColor: platformslist[game.platformId].color,
-                    borderColor: game.statusId && statuseslist[game.statusId].color,
-                    // boxShadow: `0 0 3px 3px ${game.statusId && statuseslist[game.statusId].color}`
-                }}
-                onClick={() => {
-                    setIndex(game.index)
-                    setUpdateGameModal(true)
-                }}
-            >
-                <img src={game.cover} alt={game.name} />
+    if (sort === "platform") {
+        groupedBy = gamelist.reduce((acc, game) => {
+            const pid = game.platformId;
+            if (!acc[pid]) acc[pid] = [];
+            acc[pid].push(game);
+            return acc;
+        }, {});
+    }
 
-                {["alpha", "ldjvv1", "platform", "series"].includes(sort) && <p 
-                    class='platform-name'
-                    style={{
-                        backgroundColor: platformslist[game.platformId].color
-                    }}
-                >{platformslist[game.platformId].name}</p>}
+    if (sort === "status") {
+        groupedBy = gamelist.reduce((acc, game) => {
+            const pid = game.statusId;
+            if (!acc[pid]) acc[pid] = [];
+            acc[pid].push(game);
+            return acc;
+        }, {});
+    }
 
-                {sort == "releaseDate" && <p 
-                    class='platform-name'
-                    style={{
-                        backgroundColor: platformslist[game.platformId].color
-                    }}
-                >{game.releaseDate}</p>}
+    if (sort === "series") {
+        groupedBy = gamelist.reduce((acc, game) => {
+            const pid = game.seriesId;
+            if (!acc[pid]) acc[pid] = [];
+            acc[pid].push(game);
+            return acc;
+        }, {});
+    }
 
-                {sort == "purchaseDate" && <p 
-                    class='platform-name'
-                    style={{
-                        backgroundColor: platformslist[game.platformId].color
-                    }}
-                >{game.purchaseDate}</p>}
+    return (
+        <section id='gamelist'>
 
-                {game.statusId && sort == "status" && <p 
-                    class='platform-name'
-                    style={{
-                        backgroundColor: statuseslist[game.statusId].color
-                    }}
-                >{statuseslist[game.statusId].name}</p>}
-                
-                <p 
-                    class='game-name'
-                    style={{
-                        backgroundColor: platformslist[game.platformId].color
-                    }}
-                >{game.name}</p>
-            </div>
-        ))}
+            {sort === "platform" && (
+                <div className='with-titles'>
+                    {    Object.keys(groupedBy).map(platformId => (
+                            <div key={platformId} className="group">
 
-    </section>
+                                {/* Titre de la plateforme */}
+                                <h2 
+                                    className="group-title"
+                                    style={{
+                                        backgroundColor: platformslist[platformId].color,
+                                        padding: "10px",
+                                        color: "white"
+                                    }}
+                                >
+                                    {platformslist[platformId].name}
+                                </h2>
 
+                                <div className="group-games">
+
+                                    {/* Jeux de la plateforme */}
+                                    {groupedBy[platformId].map((game, index) => (
+                                        <div 
+                                            key={index}
+                                            className="game"
+                                            style={{
+                                                boxShadow: `
+                                                    -5px 0 10px ${platformslist[game.platformId].color},
+                                                    5px 0 10px ${game.statusId && statuseslist[game.statusId].color}
+                                                `,
+                                                border: "2px solid",
+                                                borderColor: game.statusId && statuseslist[game.statusId].color,
+                                            }}
+                                            onClick={() => {
+                                                setIndex(game.index)
+                                                setUpdateGameModal(true)
+                                            }}
+                                        >
+                                            <img src={game.cover} alt={game.name} />
+
+                                            <p 
+                                                className='game-name'
+                                                style={{
+                                                    backgroundColor: platformslist[game.platformId].color
+                                                }}
+                                            >
+                                                {game.name}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                            </div>
+                        ))}
+                </div>
+            )}
+
+            {sort === "status" && (
+                <div className='with-titles'>
+                    {    Object.keys(groupedBy).map(statusId => (
+                            <div key={statusId} className="group">
+
+                                {/* Titre de la plateforme */}
+                                
+                                {console.log("feur", statuseslist[statusId], statuseslist, statusId)}
+                                <h2 
+                                    className="group-title"
+                                    style={{
+                                        backgroundColor: statuseslist[statusId] && statuseslist[statusId].color,
+                                        padding: "10px",
+                                        color: "white"
+                                    }}
+                                >
+                                    {statuseslist[statusId] ? statuseslist[statusId].name : "Aucun statut"}
+                                </h2>
+
+                                <div className="group-games">
+
+                                    {/* Jeux de la plateforme */}
+                                    {groupedBy[statusId].map((game, index) => (
+                                        <div 
+                                            key={index}
+                                            className="game"
+                                            style={{
+                                                boxShadow: `
+                                                    -5px 0 10px ${platformslist[game.platformId].color},
+                                                    5px 0 10px ${game.statusId && statuseslist[game.statusId].color}
+                                                `,
+                                                border: "2px solid",
+                                                borderColor: game.statusId && statuseslist[game.statusId].color,
+                                            }}
+                                            onClick={() => {
+                                                setIndex(game.index)
+                                                setUpdateGameModal(true)
+                                            }}
+                                        >
+                                            <img src={game.cover} alt={game.name} />
+
+                                            <p 
+                                                className='game-name'
+                                                style={{
+                                                    backgroundColor: platformslist[game.platformId].color
+                                                }}
+                                            >
+                                                {game.name}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                            </div>
+                        ))}
+                </div>
+            )}
+
+            {sort === "series" && (
+                <div className='with-titles'>
+                    {    Object.keys(groupedBy).map(seriesId => (
+                            <div key={seriesId} className="group">
+
+                                {/* Titre de la plateforme */}
+                                
+                                {console.log("feur", serieslist[seriesId], serieslist, seriesId)}
+                                <h2 
+                                    className="group-title"
+                                    style={{
+                                        backgroundColor: "white",
+                                        padding: "10px",
+                                        color: "black"
+                                    }}
+                                >
+                                    {serieslist[seriesId] ? serieslist[seriesId].name : "Aucune série"}
+                                </h2>
+
+                                <div className="group-games">
+
+                                    {/* Jeux de la plateforme */}
+                                    {groupedBy[seriesId].map((game, index) => (
+                                        <div 
+                                            key={index}
+                                            className="game"
+                                            style={{
+                                                boxShadow: `
+                                                    -5px 0 10px ${platformslist[game.platformId].color},
+                                                    5px 0 10px ${game.statusId && statuseslist[game.statusId].color}
+                                                `,
+                                                border: "2px solid",
+                                                borderColor: game.statusId && statuseslist[game.statusId].color,
+                                            }}
+                                            onClick={() => {
+                                                setIndex(game.index)
+                                                setUpdateGameModal(true)
+                                            }}
+                                        >
+                                            <img src={game.cover} alt={game.name} />
+
+                                            <p 
+                                                className='game-name'
+                                                style={{
+                                                    backgroundColor: platformslist[game.platformId].color
+                                                }}
+                                            >
+                                                {game.name}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                            </div>
+                        ))}
+                </div>
+            )}
+
+            {/* Mode normal (pas tri plateforme) */}
+            {!["platform", "status", "series"].includes(sort) && <div className="without-titles">
+            
+                {gamelist.map((game, index) => (
+                    <div 
+                        key={index}
+                        className="game"
+                        style={{
+                            boxShadow: `
+                                -5px 0 10px ${platformslist[game.platformId].color},
+                                5px 0 10px ${game.statusId && statuseslist[game.statusId].color}
+                            `,
+                            border: "2px solid",
+                            borderColor: game.statusId && statuseslist[game.statusId].color,
+                        }}
+                        onClick={() => {
+                            setIndex(game.index)
+                            setUpdateGameModal(true)
+                        }}
+                    >
+                        <img src={game.cover} alt={game.name} />
+
+                        <p 
+                            className='platform-name'
+                            style={{
+                                backgroundColor: platformslist[game.platformId].color
+                            }}
+                        >
+                            {platformslist[game.platformId].name}
+                        </p>
+
+                        <p 
+                            className='game-name'
+                            style={{
+                                backgroundColor: platformslist[game.platformId].color
+                            }}
+                        >
+                            {game.name}
+                        </p>
+                    </div>
+                ))}
+            </div>}
+
+        </section>
+    );
 }
-
-
-                    // border: "2px solid",
-                    // borderColor: platformslist[game.platformId].color,
-                    // boxShadow: `0 0 5px 5px ${game.statusId && statuseslist[game.statusId].color}`

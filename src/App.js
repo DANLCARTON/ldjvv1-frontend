@@ -1,5 +1,5 @@
 import './App.css';
-import { getAllGames, getPlatforms, getStatuses } from './firebase/firebase';
+import { getAllGames, getPlatforms, getSeries, getStatuses } from './firebase/firebase';
 import { AddGame } from './components/addGame.js';
 
 import "./firebase.js"
@@ -15,6 +15,7 @@ import { UpdateGame } from './components/updateGame.js';
 const gamelist = await getAllGames() ?? []
 const platformslist = await getPlatforms() ?? []
 const statuseslist = await getStatuses() ?? []
+const serieslist = await getSeries() ?? []
 
   const changeSort = (method) => {
     let url = new URL(window.location.href)
@@ -77,6 +78,7 @@ function App() {
         gamelist={gamelist} 
         platformslist={platformslist} 
         statuseslist={statuseslist}
+        serieslist={serieslist}
         setIndex={setIndex} 
         setUpdateGameModal={setUpdateGameModal} 
         sort={sort}
