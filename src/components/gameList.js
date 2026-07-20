@@ -97,9 +97,8 @@ export function GameList (props) {
                                     className="group-title"
                                     style={{
                                         backgroundColor: platformslist[platformId].color,
-                                        padding: "10px",
-                                        color: "white"
                                     }}
+                                    id={platformslist[platformId].index}
                                 >
                                     {platformslist[platformId].name}
                                 </h2>
@@ -155,9 +154,8 @@ export function GameList (props) {
                                     className="group-title"
                                     style={{
                                         backgroundColor: statuseslist[statusId] && statuseslist[statusId].color,
-                                        padding: "10px",
-                                        color: "white"
                                     }}
+                                    id={statuseslist[statusId] && statuseslist[statusId].index}
                                 >
                                     {statuseslist[statusId] ? statuseslist[statusId].name : "Aucun statut"}
                                 </h2>
@@ -202,7 +200,7 @@ export function GameList (props) {
             )}
 
             {sort === "series" && (
-                <div className='with-titles'>
+                <div className='with-titles by-series'>
                     {    Object.keys(groupedBy).map(seriesId => (
                             <div key={seriesId} className="group">
 
@@ -213,9 +211,8 @@ export function GameList (props) {
                                     className="group-title"
                                     style={{
                                         backgroundColor: "white",
-                                        padding: "10px",
-                                        color: "black"
                                     }}
+                                    id={serieslist[seriesId] && serieslist[seriesId].index}
                                 >
                                     {serieslist[seriesId] ? serieslist[seriesId].name : "Aucune série"}
                                 </h2>

@@ -79,3 +79,14 @@
     border-radius: 5px;
     max-width: 151.66px;
 }
+
+h2 {
+    padding: 10px 15px;
+    color: white;
+    border-radius: 10px;
+}
+
+.by-series h2 {
+    background-color: white;
+    color: black
+}

@@ -45,44 +45,77 @@ function App() {
   return (
     <div className="App">
 
-      <div className='buttons'>
-        <button 
-          class='add'
-          onClick={() => setAddGameModal(true)}
-        >+ Ajouter un nouveau jeu</button>
-        <button 
-          class='add'
-          onClick={() => setAddPlatformModal(true)}
-        >+ Ajouter une nouvelle plateforme</button>
-        <button 
-          class='add'
-          onClick={() => setAddStatusModal(true)}
-        >+ Ajouter un nouveau statut</button>
-        <button 
-          class='add'
-          onClick={() => setAddSeriesModal(true)}
-        >+ Ajouter une nouvelle série</button>
-      </div>
+      <div className='aside-glow'></div>
 
-      <div className='buttons'>
-        <button className='add' onClick={() => changeSort("alpha")}>Trier par ordre alphabétique</button>
-        <button className='add' onClick={() => changeSort("ldjvv1")}>Trier par ajout dans LDJVV1</button>
-        <button className='add' onClick={() => changeSort("platform")}>Trier par plateforme</button>
-        <button className='add' onClick={() => changeSort("status")}>Trier par statut</button>
-        <button className='add' onClick={() => changeSort("releaseDate")}>Trier par date de sortie</button>
-        <button className='add' onClick={() => changeSort("purchaseDate")}>Trier par date d'achat</button>
-        <button className='add' onClick={() => changeSort("series")}>Trier par série</button>
-      </div>
+      <aside>
 
-      <GameList 
-        gamelist={gamelist} 
-        platformslist={platformslist} 
-        statuseslist={statuseslist}
-        serieslist={serieslist}
-        setIndex={setIndex} 
-        setUpdateGameModal={setUpdateGameModal} 
-        sort={sort}
-      />
+        <h1>LDJVV1</h1>
+
+        <div className='buttons'>
+          <button 
+            class='add'
+            onClick={() => setAddGameModal(true)}
+          >+ Ajouter un nouveau jeu</button>
+          <button 
+            class='add'
+            onClick={() => setAddPlatformModal(true)}
+          >+ Ajouter une nouvelle plateforme</button>
+          <button 
+            class='add'
+            onClick={() => setAddStatusModal(true)}
+          >+ Ajouter un nouveau statut</button>
+          <button 
+            class='add'
+            onClick={() => setAddSeriesModal(true)}
+          >+ Ajouter une nouvelle série</button>
+        </div>
+
+        <div className='buttons'>
+          <button className='add' onClick={() => changeSort("alpha")}>Trier par ordre alphabétique</button>
+          <button className='add' onClick={() => changeSort("ldjvv1")}>Trier par ajout dans LDJVV1</button>
+          <button className='add' onClick={() => changeSort("platform")}>Trier par plateforme</button>
+
+          {sort == 'platform' && <div className = 'sub-buttons'>
+            {Object.keys(platformslist).map((platformId) => (
+              <a className='add' href={"#" + platformId}> • {platformslist[platformId].name}</a>
+            ))}  
+          </div>}
+
+          <button className='add' onClick={() => changeSort("status")}>Trier par statut</button>
+
+          {sort == 'status' && <div className = 'sub-buttons'>
+            {Object.keys(statuseslist).filter((statusId) => statusId !== "0").map((statusId) => (
+              <a className='add' href={"#" + statusId}> • {statuseslist[statusId].name}</a>
+            ))}  
+          </div>}
+
+          <button className='add' onClick={() => changeSort("releaseDate")}>Trier par date de sortie</button>
+          <button className='add' onClick={() => changeSort("purchaseDate")}>Trier par date d'achat</button>
+          <button className='add' onClick={() => changeSort("series")}>Trier par série</button>
+
+          {sort == 'series' && <div className = 'sub-buttons'>
+            {Object.keys(serieslist).filter((seriesId) => seriesId !== "0").map((seriesId) => (
+              <a className='add' href={"#" + seriesId}> • {serieslist[seriesId].name}</a>
+            ))}  
+          </div>}
+
+        </div>
+
+      </aside>
+
+      <main>
+
+        <GameList 
+          gamelist={gamelist} 
+          platformslist={platformslist} 
+          statuseslist={statuseslist}
+          serieslist={serieslist}
+          setIndex={setIndex} 
+          setUpdateGameModal={setUpdateGameModal} 
+          sort={sort}
+        />
+
+      </main>
 
       {addGameModal && <div className='modal add-game' onClick={() => {setAddGameModal(false)}}>
         <div onClick={(e) => {e.stopPropagation()}}>
