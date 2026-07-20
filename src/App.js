@@ -75,7 +75,7 @@ function App() {
           <button className='add' onClick={() => changeSort("ldjvv1")}>Trier par ajout dans LDJVV1</button>
           <button className='add' onClick={() => changeSort("platform")}>Trier par plateforme</button>
 
-          {sort == 'platform' && <div className = 'sub-buttons'>
+          {sort === 'platform' && <div className = 'sub-buttons'>
             {Object.keys(platformslist).map((platformId) => (
               <a className='add' href={"#" + platformId}> • {platformslist[platformId].name}</a>
             ))}  
@@ -83,7 +83,7 @@ function App() {
 
           <button className='add' onClick={() => changeSort("status")}>Trier par statut</button>
 
-          {sort == 'status' && <div className = 'sub-buttons'>
+          {sort === 'status' && <div className = 'sub-buttons'>
             {Object.keys(statuseslist).filter((statusId) => statusId !== "0").map((statusId) => (
               <a className='add' href={"#" + statusId}> • {statuseslist[statusId].name}</a>
             ))}  
@@ -93,7 +93,7 @@ function App() {
           <button className='add' onClick={() => changeSort("purchaseDate")}>Trier par date d'achat</button>
           <button className='add' onClick={() => changeSort("series")}>Trier par série</button>
 
-          {sort == 'series' && <div className = 'sub-buttons'>
+          {sort === 'series' && <div className = 'sub-buttons'>
             {Object.keys(serieslist).filter((seriesId) => seriesId !== "0").map((seriesId) => (
               <a className='add' href={"#" + seriesId}> • {serieslist[seriesId].name}</a>
             ))}  
