@@ -1,7 +1,6 @@
 import './App.css';
 import { Access, getAllGames, getPlatforms, getSeries, getStatuses } from './firebase/firebase';
 import { AddGame } from './components/addGame.js';
-import {BrowserRouter} from "react-router-dom"
 
 import "./firebase.js"
 import { AddPlatform } from './components/addPlatform.js';
@@ -47,7 +46,6 @@ function App() {
   const [updateGameModal, setUpdateGameModal] = useState(false)
 
   return (
-    <BrowserRouter basename="/ldjvv1">
       <div className="App">
 
         <div className='aside-glow'></div>
@@ -152,7 +150,6 @@ function App() {
           </div>
         </div>}
       </div>
-    </BrowserRouter>
   );
 }
 
