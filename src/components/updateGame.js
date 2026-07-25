@@ -63,30 +63,32 @@ export function UpdateGame (props) {
 
         setMessage("Mise à jour du jeu...")
 
-        await updateGame({
-            index: currentGame.index,
-            name: formData.get("name"),
-            platformId: formData.get("platformId"),
-            statusId: formData.get("statusId"),
-            purchaseDate: formData.get("purchaseDate"),
-            releaseDate: formData.get("releaseDate"),
-            startDate: formData.get("startDate"),
-            endDate: formData.get("endDate"),
-            seriesId: formData.get("seriesId"),
+        if (access) {
+            await updateGame({
+                index: currentGame.index,
+                name: formData.get("name"),
+                platformId: formData.get("platformId"),
+                statusId: formData.get("statusId"),
+                purchaseDate: formData.get("purchaseDate"),
+                releaseDate: formData.get("releaseDate"),
+                startDate: formData.get("startDate"),
+                endDate: formData.get("endDate"),
+                seriesId: formData.get("seriesId"),
 
-            collectionFlag: collectionFlag ? "true" : "false",
-            DLCFlag: DLCFlag ? "true" : "false",
-            episodicFlag: episodicFlag ? "true" : "false",
+                collectionFlag: collectionFlag ? "true" : "false",
+                DLCFlag: DLCFlag ? "true" : "false",
+                episodicFlag: episodicFlag ? "true" : "false",
 
-            collectionGames: collectionGamesList,
-            DLCGames: DLCGamesList,
-            episodicGames: episodicGamesList
-        }).then((response) => {
-            setMessage(response)
-            setTimeout(() => {
-                window.location.reload()
-            }, 500)
-        })
+                collectionGames: collectionGamesList,
+                DLCGames: DLCGamesList,
+                episodicGames: episodicGamesList
+            }).then((response) => {
+                setMessage(response)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 500)
+            })
+        }
     }
 
     // --- AJOUT / SUPPRESSION DE SOUS-JEUX ---
@@ -189,7 +191,7 @@ export function UpdateGame (props) {
                     <label htmlFor='episodicFlag'>Est un jeu épisodique</label>
                 </div>
 
-                <input type="submit" value="Mettre à jour" />
+                {access && <input type="submit" value="Mettre à jour" />}
 
                 {message !== "" && <pre>{message}</pre>}
 

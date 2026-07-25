@@ -11,8 +11,9 @@ import { useState } from 'react';
 import "./styles/modal.css"
 import { AddSeries } from './components/addSeries.js';
 import { UpdateGame } from './components/updateGame.js';
+import { demoGames } from './constants.js';
 
-const gamelist = await getAllGames() ?? []
+let gamelist = await getAllGames() ?? []
 const platformslist = await getPlatforms() ?? []
 const statuseslist = await getStatuses() ?? []
 const serieslist = await getSeries() ?? []
@@ -35,7 +36,13 @@ const serieslist = await getSeries() ?? []
 
 function App() {
 
+  if (!access) {
+    gamelist = gamelist.filter((game) => demoGames.includes(game.index))
+  }
+
   const nextIndex = gamelist.length+1 
+
+  console.log(nextIndex)
 
   const [index, setIndex] = useState(0)
 
