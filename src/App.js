@@ -1,6 +1,7 @@
 import './App.css';
 import { Access, getAllGames, getPlatforms, getSeries, getStatuses } from './firebase/firebase';
 import { AddGame } from './components/addGame.js';
+import {BrowserRouter} from "react-router-dom"
 
 import "./firebase.js"
 import { AddPlatform } from './components/addPlatform.js';
@@ -46,110 +47,112 @@ function App() {
   const [updateGameModal, setUpdateGameModal] = useState(false)
 
   return (
-    <div className="App">
+    <BrowserRouter basename="/ldjvv1">
+      <div className="App">
 
-      <div className='aside-glow'></div>
+        <div className='aside-glow'></div>
 
-      <aside>
+        <aside>
 
-        <h1>LDJVV1 {!access && <>Démo</>}</h1>
+          <h1>LDJVV1 {!access && <>Démo</>}</h1>
 
-        {access && <div className='buttons'>
-          <button 
-            class='add'
-            onClick={() => setAddGameModal(true)}
-          >+ Ajouter un nouveau jeu</button>
-          <button 
-            class='add'
-            onClick={() => setAddPlatformModal(true)}
-          >+ Ajouter une nouvelle plateforme</button>
-          <button 
-            class='add'
-            onClick={() => setAddStatusModal(true)}
-          >+ Ajouter un nouveau statut</button>
-          <button 
-            class='add'
-            onClick={() => setAddSeriesModal(true)}
-          >+ Ajouter une nouvelle série</button>
+          {access && <div className='buttons'>
+            <button 
+              class='add'
+              onClick={() => setAddGameModal(true)}
+            >+ Ajouter un nouveau jeu</button>
+            <button 
+              class='add'
+              onClick={() => setAddPlatformModal(true)}
+            >+ Ajouter une nouvelle plateforme</button>
+            <button 
+              class='add'
+              onClick={() => setAddStatusModal(true)}
+            >+ Ajouter un nouveau statut</button>
+            <button 
+              class='add'
+              onClick={() => setAddSeriesModal(true)}
+            >+ Ajouter une nouvelle série</button>
+          </div>}
+
+          <div className='buttons'>
+            <button className='add' onClick={() => changeSort("alpha")}>Trier par ordre alphabétique</button>
+            <button className='add' onClick={() => changeSort("ldjvv1")}>Trier par ajout dans LDJVV1</button>
+            <button className='add' onClick={() => changeSort("platform")}>Trier par plateforme</button>
+
+            {sort === 'platform' && <div className = 'sub-buttons'>
+              {Object.keys(platformslist).map((platformId) => (
+                <a className='add' href={"#" + platformId}> • {platformslist[platformId].name}</a>
+              ))}  
+            </div>}
+
+            <button className='add' onClick={() => changeSort("status")}>Trier par statut</button>
+
+            {sort === 'status' && <div className = 'sub-buttons'>
+              {Object.keys(statuseslist).filter((statusId) => statusId !== "0").map((statusId) => (
+                <a className='add' href={"#" + statusId}> • {statuseslist[statusId].name}</a>
+              ))}  
+            </div>}
+
+            <button className='add' onClick={() => changeSort("releaseDate")}>Trier par date de sortie</button>
+            <button className='add' onClick={() => changeSort("purchaseDate")}>Trier par date d'achat</button>
+            <button className='add' onClick={() => changeSort("series")}>Trier par série</button>
+
+            {sort === 'series' && <div className = 'sub-buttons'>
+              {Object.keys(serieslist).filter((seriesId) => seriesId !== "0").map((seriesId) => (
+                <a className='add' href={"#" + seriesId}> • {serieslist[seriesId].name}</a>
+              ))}  
+            </div>}
+
+          </div>
+
+        </aside>
+
+        <main>
+
+          <GameList 
+            gamelist={gamelist} 
+            platformslist={platformslist} 
+            statuseslist={statuseslist}
+            serieslist={serieslist}
+            setIndex={setIndex} 
+            setUpdateGameModal={setUpdateGameModal} 
+            sort={sort}
+          />
+
+        </main>
+
+        {addGameModal && <div className='modal add-game' onClick={() => {setAddGameModal(false)}}>
+          <div onClick={(e) => {e.stopPropagation()}}>
+            <AddGame nextIndex={nextIndex} />
+          </div>
         </div>}
 
-        <div className='buttons'>
-          <button className='add' onClick={() => changeSort("alpha")}>Trier par ordre alphabétique</button>
-          <button className='add' onClick={() => changeSort("ldjvv1")}>Trier par ajout dans LDJVV1</button>
-          <button className='add' onClick={() => changeSort("platform")}>Trier par plateforme</button>
+        {addPlatformModal && <div className='modal add-game' onClick={() => setAddPlatformModal(false)}>
+          <div onClick={(e) => {e.stopPropagation()}}>
+            <AddPlatform />
+          </div>
+        </div>}
 
-          {sort === 'platform' && <div className = 'sub-buttons'>
-            {Object.keys(platformslist).map((platformId) => (
-              <a className='add' href={"#" + platformId}> • {platformslist[platformId].name}</a>
-            ))}  
-          </div>}
+        {addStatusModal && <div className='modal add-game' onClick={() => setAddStatusModal(false)}>
+          <div onClick={(e) => {e.stopPropagation()}}>
+            <AddStatus />
+          </div>
+        </div>}
 
-          <button className='add' onClick={() => changeSort("status")}>Trier par statut</button>
+        {addSeriesModal && <div className='modal add-game' onClick={() => setAddSeriesModal(false)}>
+          <div onClick={(e) => {e.stopPropagation()}}>
+            <AddSeries />
+          </div>
+        </div>}
 
-          {sort === 'status' && <div className = 'sub-buttons'>
-            {Object.keys(statuseslist).filter((statusId) => statusId !== "0").map((statusId) => (
-              <a className='add' href={"#" + statusId}> • {statuseslist[statusId].name}</a>
-            ))}  
-          </div>}
-
-          <button className='add' onClick={() => changeSort("releaseDate")}>Trier par date de sortie</button>
-          <button className='add' onClick={() => changeSort("purchaseDate")}>Trier par date d'achat</button>
-          <button className='add' onClick={() => changeSort("series")}>Trier par série</button>
-
-          {sort === 'series' && <div className = 'sub-buttons'>
-            {Object.keys(serieslist).filter((seriesId) => seriesId !== "0").map((seriesId) => (
-              <a className='add' href={"#" + seriesId}> • {serieslist[seriesId].name}</a>
-            ))}  
-          </div>}
-
-        </div>
-
-      </aside>
-
-      <main>
-
-        <GameList 
-          gamelist={gamelist} 
-          platformslist={platformslist} 
-          statuseslist={statuseslist}
-          serieslist={serieslist}
-          setIndex={setIndex} 
-          setUpdateGameModal={setUpdateGameModal} 
-          sort={sort}
-        />
-
-      </main>
-
-      {addGameModal && <div className='modal add-game' onClick={() => {setAddGameModal(false)}}>
-        <div onClick={(e) => {e.stopPropagation()}}>
-          <AddGame nextIndex={nextIndex} />
-        </div>
-      </div>}
-
-      {addPlatformModal && <div className='modal add-game' onClick={() => setAddPlatformModal(false)}>
-        <div onClick={(e) => {e.stopPropagation()}}>
-          <AddPlatform />
-        </div>
-      </div>}
-
-      {addStatusModal && <div className='modal add-game' onClick={() => setAddStatusModal(false)}>
-        <div onClick={(e) => {e.stopPropagation()}}>
-          <AddStatus />
-        </div>
-      </div>}
-
-      {addSeriesModal && <div className='modal add-game' onClick={() => setAddSeriesModal(false)}>
-        <div onClick={(e) => {e.stopPropagation()}}>
-          <AddSeries />
-        </div>
-      </div>}
-
-      {updateGameModal && <div className='modal add-game' onClick={() => setUpdateGameModal(false)}>
-        <div onClick={(e) => {e.stopPropagation()}}>
-          <UpdateGame index={index} gamelist={gamelist} access={access}/>
-        </div>
-      </div>}
-    </div>
+        {updateGameModal && <div className='modal add-game' onClick={() => setUpdateGameModal(false)}>
+          <div onClick={(e) => {e.stopPropagation()}}>
+            <UpdateGame index={index} gamelist={gamelist} access={access}/>
+          </div>
+        </div>}
+      </div>
+    </BrowserRouter>
   );
 }
 
