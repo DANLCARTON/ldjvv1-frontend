@@ -18,6 +18,13 @@ export const addGame = async (params) => {
     console.log("addgame params startDate ", params.startDate)
     console.log("addgame params endDate ", params.endDate)
     console.log("addgame params seriesId ", params.seriesId)
+    console.log("addgame params collectionFlag ", params.collectionFlag)
+    console.log("addgame params DLCFlag ", params.DLCFlag)
+    console.log("addgame params episodicFlag ", params.episodicFlag)
+    console.log("addgame params collectionGames ", params.collectionGames)
+    console.log("addgame params DLCGames ", params.DLCGames)
+    console.log("addgame params episodicGames ", params.episodicGames)
+
     try {
         const response = await fetch("https://addgame-rzoj3yjecq-uc.a.run.app"+
             "?index="+params.index
@@ -29,6 +36,12 @@ export const addGame = async (params) => {
             +(params.startDate ? "&startDate="+params.startDate : "")
             +(params.endDate ? "&endDate="+params.endDate : "")
             +(params.seriesId ? "&seriesId="+params.seriesId : "")
+            +"&collectionFlag=" + params.collectionFlag
+            +"&DLCFlag=" + params.DLCFlag
+            +"&episodicFlag=" + params.episodicFlag
+            +"&collectionGames=" + encodeURIComponent(JSON.stringify(params.collectionGames))
+            +"&DLCGames=" + encodeURIComponent(JSON.stringify(params.DLCGames))
+            +"&episodicGames=" + encodeURIComponent(JSON.stringify(params.episodicGames))
         )
         const message = await response.text()
         return message
@@ -112,20 +125,28 @@ export const addStatus = async (params) => {
 export const updateGame = async (params) => {
     try {
         const response = await fetch("https://updategame-rzoj3yjecq-uc.a.run.app"
-            +"?index="+params.index
-            +"&name="+encodeURIComponent(params.name)
-            +"&platformId="+params.platformId
-            +"&statusId="+params.statusId
-            +(params.purchaseDate ? "&purchaseDate="+params.purchaseDate : "")
-            +(params.releaseDate ? "&releaseDate="+params.releaseDate : "")
-            +(params.startDate ? "&startDate="+params.startDate : "")
-            +(params.endDate ? "&endDate="+params.endDate : "")
-            +(params.seriesId ? "&seriesId="+params.seriesId : "")
-        )
-        const set = response.text()
-        return set;
+            + "?index=" + params.index
+            + (params.name !== undefined ? "&name=" + encodeURIComponent(params.name) : "")
+            + (params.platformId !== undefined ? "&platformId=" + params.platformId : "")
+            + (params.statusId !== undefined ? "&statusId=" + params.statusId : "")
+            + (params.purchaseDate ? "&purchaseDate=" + params.purchaseDate : "")
+            + (params.releaseDate ? "&releaseDate=" + params.releaseDate : "")
+            + (params.startDate ? "&startDate=" + params.startDate : "")
+            + (params.endDate ? "&endDate=" + params.endDate : "")
+            + (params.seriesId !== undefined ? "&seriesId=" + params.seriesId : "")
+            + (params.collectionFlag !== undefined ? "&collectionFlag=" + params.collectionFlag : "")
+            + (params.DLCFlag !== undefined ? "&DLCFlag=" + params.DLCFlag : "")
+            + (params.episodicFlag !== undefined ? "&episodicFlag=" + params.episodicFlag : "")
+            + (params.collectionGames !== undefined ? "&collectionGames=" + encodeURIComponent(JSON.stringify(params.collectionGames)) : "")
+            + (params.DLCGames !== undefined ? "&DLCGames=" + encodeURIComponent(JSON.stringify(params.DLCGames)) : "")
+            + (params.episodicGames !== undefined ? "&episodicGames=" + encodeURIComponent(JSON.stringify(params.episodicGames)) : "")
+        );
+
+        const message = await response.text();
+        return message;
+
     } catch (error) {
-        return "Echec lors de la mise à jour -> " + error
+        return "Echec lors de la mise à jour -> " + error;
     }
 }
 

@@ -1,13 +1,12 @@
 .add-game > form {
-    padding: 25px;
-    border-radius: 25px;
+    display: flex;
     background-color: #000000;
     border: 1px solid #ffffff50;
-
-    display: flex;
-    flex-direction: column;
-    font-size: 16px;
+    border-radius: 25px;
+    padding: 25px;
     gap: 25px;
+
+    
 
     box-shadow:
     0 0 25px #ffffff50, /* outer white */
@@ -15,7 +14,15 @@
     10px 0 40px #00ffff50; /* outer right cyan */;
 }
 
-.add-game > form input {
+.add-game > form > section {
+
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    gap: 25px;
+}
+
+.add-game > form > section input {
     font-size: 16px;
     background-color: black;
     padding: 5px;
@@ -23,7 +30,7 @@
     border-radius: 10px;
 }
 
-.add-game > form input:disabled {
+.add-game > form > section input:disabled {
     color: #505050
 }
 
@@ -53,4 +60,61 @@
 
 .add-game > form input[type="color"]::-webkit-color-swatch {
     border: none;
+}
+
+.field.checkbox-field {
+    flex-direction: row;
+    gap: 5px;
+}
+
+.sub-games {
+    width: 417px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.add-button-container {
+    display: flex;
+    gap: 5px;
+}
+
+.sub-games-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.add-button-container button {
+    color: black;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.sub-game {
+    display: flex;
+    max-width: 100%;
+    gap: 5px;
+}
+
+.sub-game input,
+.sub-game select {
+    width: 200px;
+}
+
+.sub-game input {
+    background-color: black;
+    color: white;
+    border: solid 1px #333333;
+    padding: 0 5px;
+}
+
+.precision {
+    font-style: italic;
+    font-size: 12px;
 }
