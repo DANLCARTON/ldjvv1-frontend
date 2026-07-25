@@ -1,5 +1,5 @@
 import './App.css';
-import { getAllGames, getPlatforms, getSeries, getStatuses } from './firebase/firebase';
+import { Access, getAllGames, getPlatforms, getSeries, getStatuses } from './firebase/firebase';
 import { AddGame } from './components/addGame.js';
 
 import "./firebase.js"
@@ -28,6 +28,9 @@ const serieslist = await getSeries() ?? []
     return url.searchParams.get("sort")
   }
 
+  const access = await Access()
+  console.log('access', access)
+
   const sort = getSort()
 
 function App() {
@@ -49,9 +52,9 @@ function App() {
 
       <aside>
 
-        <h1>LDJVV1</h1>
+        <h1>LDJVV1 {!access && <>Démo</>}</h1>
 
-        <div className='buttons'>
+        {access && <div className='buttons'>
           <button 
             class='add'
             onClick={() => setAddGameModal(true)}
@@ -68,7 +71,7 @@ function App() {
             class='add'
             onClick={() => setAddSeriesModal(true)}
           >+ Ajouter une nouvelle série</button>
-        </div>
+        </div>}
 
         <div className='buttons'>
           <button className='add' onClick={() => changeSort("alpha")}>Trier par ordre alphabétique</button>
@@ -143,7 +146,7 @@ function App() {
 
       {updateGameModal && <div className='modal add-game' onClick={() => setUpdateGameModal(false)}>
         <div onClick={(e) => {e.stopPropagation()}}>
-          <UpdateGame index={index} gamelist={gamelist}/>
+          <UpdateGame index={index} gamelist={gamelist} access={access}/>
         </div>
       </div>}
     </div>

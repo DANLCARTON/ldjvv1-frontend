@@ -213,3 +213,24 @@ export const getSeries = async (params) => {
         console.log("Error when getting series "+error)
     }
 }
+
+export const Access = async () => {
+    const cookies = document.cookie;
+
+    const response = await fetch(
+        "https://checkaccess-rzoj3yjecq-uc.a.run.app",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ cookies })
+        }
+    );
+
+    const access = await response.json();
+
+    console.log("access", access)
+
+    return access.allowed === true;
+};

@@ -8,7 +8,7 @@ const series = Object.values(await getSeries() ?? [])
 
 export function UpdateGame (props) {
 
-    const {index, gamelist} = props
+    const {index, gamelist, access} = props
 
     const [message, setMessage] = useState("")
 
@@ -115,12 +115,14 @@ export function UpdateGame (props) {
 
                 <div className="field">
                     <label htmlFor='name'>Nom du jeu</label>
-                    <input type='text' name="name" defaultValue={currentGame.name} required />
+                    {access 
+                        ? <input type='text' name="name" defaultValue={currentGame.name} required />
+                        : <input type='text' name="name" defaultValue={currentGame.name} required disabled />}
                 </div>
 
                 <div className="field">
                     <label htmlFor='platformId'>Plateforme</label>
-                    <select name='platformId' defaultValue={currentGame.platformId}>
+                    <select name='platformId' defaultValue={currentGame.platformId} disabled={access ? false : true}>
                         {platforms.map((platform, index) => (
                             <option key={index} value={platform.index}>
                                 {platform.name}
@@ -131,7 +133,7 @@ export function UpdateGame (props) {
 
                 <div className="field">
                     <label htmlFor='statusId'>Statut</label>
-                    <select name='statusId' defaultValue={currentGame.statusId}>
+                    <select name='statusId' defaultValue={currentGame.statusId} disabled={access ? false : true}>
                         {statuses.map((status, index) => (
                             <option key={index} value={status.index}>
                                 {status.name}
@@ -142,27 +144,27 @@ export function UpdateGame (props) {
 
                 <div className="field">
                     <label htmlFor='purchaseDate'>Date d'achat</label>
-                    <input type='date' name="purchaseDate" defaultValue={currentGame.purchaseDate} />
+                    <input type='date' name="purchaseDate" defaultValue={currentGame.purchaseDate} disabled={access ? false : true} />
                 </div>
 
                 <div className="field">
                     <label htmlFor='releaseDate'>Date de sortie</label>
-                    <input type='date' name="releaseDate" defaultValue={currentGame.releaseDate} />
+                    <input type='date' name="releaseDate" defaultValue={currentGame.releaseDate} disabled={access ? false : true} />
                 </div>
 
                 <div className="field">
                     <label htmlFor='startDate'>Date de début</label>
-                    <input type='date' name="startDate" defaultValue={currentGame.startDate} />
+                    <input type='date' name="startDate" defaultValue={currentGame.startDate} disabled={access ? false : true} />
                 </div>
 
                 <div className="field">
                     <label htmlFor='endDate'>Date de fin</label>
-                    <input type='date' name="endDate" defaultValue={currentGame.endDate} />
+                    <input type='date' name="endDate" defaultValue={currentGame.endDate} disabled={access ? false : true} />
                 </div>
 
                 <div className="field">
                     <label htmlFor='seriesId'>Série</label>
-                    <select name='seriesId' defaultValue={currentGame.seriesId}>
+                    <select name='seriesId' defaultValue={currentGame.seriesId} disabled={access ? false : true} >
                         <option value="---">---</option>
                         {series.map((serie, index) => (
                             <option key={index} value={serie.index}>
@@ -173,17 +175,17 @@ export function UpdateGame (props) {
                 </div>
 
                 <div className="field checkbox-field">
-                    <input type="checkbox" name="collectionFlag" id="collectionFlag" defaultChecked={currentGame.collectionFlag === "true"} onClick={() => setCollectionFlag(!collectionFlag)} />
+                    <input type="checkbox" name="collectionFlag" id="collectionFlag" defaultChecked={currentGame.collectionFlag === "true"} onClick={() => setCollectionFlag(!collectionFlag)} disabled={access ? false : true}/>
                     <label htmlFor='collectionFlag'>Est une compilation de jeux</label>
                 </div>
 
                 <div className="field checkbox-field">
-                    <input type="checkbox" name="DLCFlag" id="DLCFlag" defaultChecked={currentGame.DLCFlag === "true"} onClick={() => setDLCFlag(!DLCFlag)} />
+                    <input type="checkbox" name="DLCFlag" id="DLCFlag" defaultChecked={currentGame.DLCFlag === "true"} onClick={() => setDLCFlag(!DLCFlag)} disabled={access ? false : true}/>
                     <label htmlFor='DLCFlag'>Contient des DLC</label>
                 </div>
 
                 <div className="field checkbox-field">
-                    <input type="checkbox" name="episodicFlag" id="episodicFlag" defaultChecked={currentGame.episodicFlag === "true"} onClick={() => setEpisodicFlag(!episodicFlag)} />
+                    <input type="checkbox" name="episodicFlag" id="episodicFlag" defaultChecked={currentGame.episodicFlag === "true"} onClick={() => setEpisodicFlag(!episodicFlag)} disabled={access ? false : true}/>
                     <label htmlFor='episodicFlag'>Est un jeu épisodique</label>
                 </div>
 
@@ -200,15 +202,15 @@ export function UpdateGame (props) {
                         <div className="sub-games-list">
                             <h3>Compilation</h3>
 
-                            <div className='add-button-container'>
+                            {access && <div className='add-button-container'>
                                 <button onClick={() => handleAddSubGame("collection")}>+</button>
                                 <p>Ajouter un jeu</p>
-                            </div>
+                            </div>}
 
                             {Array.from({ length: collectionLength }).map((_, index) => (
                                 <div className="sub-game" key={index}>
-                                    <input type="text" name={"collectionSubGameName|" + index} placeholder="nom" defaultValue={currentGame.collectionGames?.[index]?.name} required />
-                                    <select name={"collectionSubGameStatusId|" + index} defaultValue={currentGame.collectionGames?.[index]?.statusId} >
+                                    <input type="text" name={"collectionSubGameName|" + index} placeholder="nom" defaultValue={currentGame.collectionGames?.[index]?.name} required disabled={access ? false : true} />
+                                    <select name={"collectionSubGameStatusId|" + index} defaultValue={currentGame.collectionGames?.[index]?.statusId} disabled={access ? false : true} >
                                         {statuses.map((status, idx) => (
                                             <option key={idx} value={status.index}>
                                                 {status.name}
@@ -218,7 +220,7 @@ export function UpdateGame (props) {
                                 </div>
                             ))}
 
-                            {collectionLength > 0 && (
+                            {access && collectionLength > 0 && (
                                 <div className='add-button-container'>
                                     <button onClick={() => handleDeleteSubGame("collection")}>-</button>
                                     <p>Retirer un jeu</p>
@@ -231,17 +233,17 @@ export function UpdateGame (props) {
                         <div className="sub-games-list">
                             <h3>Liste de DLC</h3>
 
-                            <div className='add-button-container'>
+                            {access && <div className='add-button-container'>
                                 <button onClick={() => handleAddSubGame("dlc")}>+</button>
                                 <p>Ajouter un DLC</p>
-                            </div>
+                            </div>}
 
                             <span className="precision">Idéalement, inclure le jeu de base sous le nom "jeu de base"</span>
 
                             {Array.from({ length: DLCLength }).map((_, index) => (
                                 <div className="sub-game" key={index}>
-                                    <input type="text" name={"DLCSubGameName|" + index} placeholder="nom" defaultValue={currentGame.DLCGames?.[index]?.name} required />
-                                    <select name={"DLCSubGameStatusId|" + index} defaultValue={currentGame.DLCGames?.[index]?.statusId} >
+                                    <input type="text" name={"DLCSubGameName|" + index} placeholder="nom" defaultValue={currentGame.DLCGames?.[index]?.name} required disabled={access ? false : true}/>
+                                    <select name={"DLCSubGameStatusId|" + index} defaultValue={currentGame.DLCGames?.[index]?.statusId} disabled={access ? false : true}>
                                         {statuses.map((status, idx) => (
                                             <option key={idx} value={status.index}>
                                                 {status.name}
@@ -251,7 +253,7 @@ export function UpdateGame (props) {
                                 </div>
                             ))}
 
-                            {DLCLength > 0 && (
+                            {access && DLCLength > 0 && (
                                 <div className='add-button-container'>
                                     <button onClick={() => handleDeleteSubGame("dlc")}>-</button>
                                     <p>Retirer un DLC</p>
@@ -264,15 +266,15 @@ export function UpdateGame (props) {
                         <div className="sub-games-list">
                             <h3>Épisodes</h3>
 
-                            <div className='add-button-container'>
+                            {access && <div className='add-button-container'>
                                 <button onClick={() => handleAddSubGame("episodic")}>+</button>
                                 <p>Ajouter un épisode</p>
-                            </div>
+                            </div>}
 
                             {Array.from({ length: episodicLength }).map((_, index) => (
                                 <div className="sub-game" key={index}>
-                                    <input type="text" name={"episodicSubGameName|" + index} placeholder="nom" defaultValue={currentGame.episodicGames?.[index]?.name} required />
-                                    <select name={"episodicSubGameStatusId|" + index} defaultValue={currentGame.episodicGames?.[index]?.statusId} >
+                                    <input type="text" name={"episodicSubGameName|" + index} placeholder="nom" defaultValue={currentGame.episodicGames?.[index]?.name} required disabled={access ? false : true}/>
+                                    <select name={"episodicSubGameStatusId|" + index} defaultValue={currentGame.episodicGames?.[index]?.statusId} disabled={access ? false : true}>
                                         {statuses.map((status, idx) => (
                                             <option key={idx} value={status.index}>
                                                 {status.name}
@@ -282,7 +284,7 @@ export function UpdateGame (props) {
                                 </div>
                             ))}
 
-                            {episodicLength > 0 && (
+                            {access && episodicLength > 0 && (
                                 <div className='add-button-container'>
                                     <button onClick={() => handleDeleteSubGame("episodic")}>-</button>
                                     <p>Retirer un épisode</p>
@@ -290,7 +292,7 @@ export function UpdateGame (props) {
                             )}
                         </div>
                     )}
-
+    
                 </div>
             )}
         </form>
