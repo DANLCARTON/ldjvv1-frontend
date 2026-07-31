@@ -48,16 +48,7 @@ export function GameList (props) {
         })
     } else {
         gamelist = gamelist.sort((a, b) => a.name.localeCompare(b.name));
-    }
-
-    let merde = []
-    Object.values(platformslist).map((d) => (
-        merde = [...merde, d.index]
-    ))
-
-    gamelist.map((map) => {
-        if (!merde.includes(map.platformId)) console.log("je vais me foutre en l'air", map)
-    })
+    }   
 
     console.log("statuseslist", statuseslist)
     console.log("platformslist", platformslist)
