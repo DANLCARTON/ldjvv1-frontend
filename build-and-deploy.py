@@ -1,14 +1,29 @@
 import os
 from ftplib import FTP
 
+print("")
+print("------------------------------------------")
+print("---- BUILD AND DEPLOY                 ----")
+print("---- LDJVV1                           ----")
+print("------------------------------------------")
+print("")
+
 HOST = "89.116.147.237"   # souvent ftp.domaine.fr
 USER = "u896943247"
 PASSWORD = "mdpFTP00123!?"
 REMOTE_DIR = "/domains/ericthiberge.fr/public_html/ldjvv1"
 LOCAL_DIR = "build"
 
+print ('')
+print ('---- BUILD ----')
+print ('')  
+
 print("📦 Build React...")
 os.system("npm run build")
+
+print ('')
+print ('---- DEPLOY ----')
+print ('')
 
 print("🚀 Connexion FTP...")
 ftp = FTP(HOST)
